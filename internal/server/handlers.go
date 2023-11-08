@@ -17,14 +17,17 @@ func (s *Server) healthHandler(w http.ResponseWriter, _ *http.Request) {
 func (s *Server) getUsersHandler(w http.ResponseWriter, _ *http.Request) {
 }
 
-func (s *Server) getUserHandler(w http.ResponseWriter, _ *http.Request) {
+func (s *Server) getUserHandler(w http.ResponseWriter, r *http.Request) {
+	r.URL.Query().Get("username")
 }
 
 func (s *Server) postUserHandler(w http.ResponseWriter, _ *http.Request) {
 }
 
-func (s *Server) putUserHandler(w http.ResponseWriter, _ *http.Request) {
+func (s *Server) putUserHandler(w http.ResponseWriter, r *http.Request) {
+	r.URL.Query().Get("username")
 }
 
-func (s *Server) deleteUserHandler(w http.ResponseWriter, _ *http.Request) {
+func (s *Server) deleteUserHandler(w http.ResponseWriter, r *http.Request) {
+	r.URL.Query().Get("username")
 }
