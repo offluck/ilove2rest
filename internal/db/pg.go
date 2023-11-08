@@ -2,16 +2,21 @@ package db
 
 import (
 	"context"
+	"database/sql"
 
 	"github.com/offluck/ilove2rest/internal/entities/user"
 )
 
-type PGClient struct{}
+type PGClient struct {
+	*sql.DB
+}
 
-var _ Client = NewPGClient()
+var _ Client = NewPGClient(nil)
 
-func NewPGClient() *PGClient {
-	return &PGClient{}
+func NewPGClient(db *sql.DB) *PGClient {
+	return &PGClient{
+		DB: db,
+	}
 }
 
 func (*PGClient) GetUsers(ctx context.Context) ([]user.UserDB, error) {

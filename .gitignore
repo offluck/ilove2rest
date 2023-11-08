@@ -6,5 +6,9 @@
 .idea/
 .vscode/
 
+# DB
+pgdata/
+
 # Bins
+bin/
 target/
