@@ -17,7 +17,7 @@ bindir:
 recreate-database:
 	docker-compose down
 	rm -rf pgdata
-	docker-compose up database --build -d
+	docker-compose -f dev.docker-compose.yaml up --build -d
 
 dev: recreate-database
 	sleep 10

@@ -7,7 +7,7 @@ import (
 	"log"
 
 	"github.com/offluck/ilove2rest/internal/config"
-	"github.com/offluck/ilove2rest/internal/db"
+	"github.com/offluck/ilove2rest/internal/repository"
 	"github.com/offluck/ilove2rest/internal/server"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -115,6 +115,6 @@ func main() {
 	}
 
 	logger.Info("Starting server")
-	s := server.New(conf.Port, db.NewPGClient(dataBase, logger), logger)
+	s := server.New(conf.Port, repository.NewPGClient(dataBase, logger), logger)
 	s.Start()
 }

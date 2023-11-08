@@ -6,17 +6,17 @@ import (
 
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
-	"github.com/offluck/ilove2rest/internal/db"
+	"github.com/offluck/ilove2rest/internal/repository"
 	"go.uber.org/zap"
 )
 
 type Server struct {
 	http.Server
-	DBClient db.Client
+	DBClient repository.Client
 	logger   *zap.Logger
 }
 
-func New(port uint16, dbClient db.Client, logger *zap.Logger) *Server {
+func New(port uint16, dbClient repository.Client, logger *zap.Logger) *Server {
 	s := new(Server)
 	s.Addr = fmt.Sprintf(":%d", port)
 	s.Handler = s.setUpRouter()

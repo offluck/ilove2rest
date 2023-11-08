@@ -191,11 +191,3 @@ func (s *Server) deleteUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	s.logger.Debug("Deleted user")
 }
-
-func (s *Server) writeError(w http.ResponseWriter, statusCode int, message string) {
-	w.WriteHeader(statusCode)
-	_, err := w.Write([]byte(message))
-	if err != nil {
-		s.logger.Error("Failed to write error response", zap.Error(err))
-	}
-}
