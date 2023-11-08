@@ -90,7 +90,7 @@ func (s *Server) postUserHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userDB, err := s.DBClient.AddUser(context.TODO(), userRequest)
+	userDB, err := s.DBClient.AddUser(context.TODO(), userRequest.Req2DB())
 	if err != nil {
 		s.writeError(w, http.StatusInternalServerError, fmt.Sprintf("Failed to add user to DB: %+v", err))
 		return

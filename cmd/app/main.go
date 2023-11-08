@@ -111,6 +111,6 @@ func main() {
 	}
 
 	logger.Info("Starting server")
-	s := server.New(conf.Port, db.NewPGClient(dataBase), logger)
+	s := server.New(conf.Port, db.NewPGClient(dataBase, logger), logger)
 	s.Start()
 }
