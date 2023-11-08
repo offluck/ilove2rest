@@ -14,6 +14,10 @@ func NewRedisClient() *RedisClient {
 	return &RedisClient{}
 }
 
+func (*RedisClient) GetUsers(ctx context.Context) ([]user.UserDB, error) {
+	panic("unimplemented")
+}
+
 func (*RedisClient) AddUser(ctx context.Context, user user.UserRequest) (user.UserDB, error) {
 	panic("unimplemented")
 }
