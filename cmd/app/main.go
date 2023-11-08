@@ -104,7 +104,7 @@ func main() {
 		log.Fatalf("Failed to initialize logger: %+v", err)
 	}
 
-	dataBase, err := initDB(conf.DBURL)
+	dataBase, err := initDB(conf.DB.GetDBURL())
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %+v", err)
 	}

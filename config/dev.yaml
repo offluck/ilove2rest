@@ -1,3 +1,10 @@
 port: 8000
-db_url: "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
+db:
+  schema: "postgres"
+  user: "postgres"
+  password: "postgres"
+  ip: "localhost"
+  port: 5432
+  database: "postgres"
+  ssl: "disable"
 logging_level: "DEBUG"
