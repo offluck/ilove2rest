@@ -18,3 +18,19 @@ recreate-database:
 	docker-compose down
 	rm -rf pgdata
 	docker-compose up database --build -d
+
+dev: recreate-database
+	sleep 10
+	make run
+
+prod:
+	docker-compose up --build -d
+
+stop:
+	docker-compose down
+
+clean:
+	rm -rf bin
+	rm -rf pgdata
+
+prune: stop clean

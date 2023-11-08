@@ -6,7 +6,8 @@ RUN make build
 
 FROM alpine:latest AS runner
 WORKDIR /app
-COPY --from=builder /app/bin/userapp .
-COPY ./config/prod.yaml ./prod.yaml
+COPY --from=builder /app/bin/userapp ./bin/userapp
+COPY ./config/prod.yaml ./config/prod.yaml
+COPY ./migrations ./migrations
 EXPOSE 8000
-CMD ["./userapp", "-config", "prod.yaml"]
+CMD ["./bin/userapp", "-config", "config/prod.yaml"]
