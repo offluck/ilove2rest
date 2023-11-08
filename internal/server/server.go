@@ -31,12 +31,16 @@ func (s *Server) setUpRouter() *chi.Mux {
 
 	r.Get("/health", s.healthHandler)
 
-	r.Route("/user", func(r chi.Router) {
-		r.Get("/", s.getUsersHandler)
-		r.Post("/", s.postUserHandler)
-		r.Get("/{username}", s.getUserHandler)
-		r.Put("/{username}", s.putUserHandler)
-		r.Delete("/{username}", s.deleteUserHandler)
+	r.Route("/api", func(r chi.Router) {
+		r.Route("/v0", func(r chi.Router) {
+			r.Route("/user", func(r chi.Router) {
+				r.Get("/", s.getUsersHandler)
+				r.Post("/", s.postUserHandler)
+				r.Get("/{username}", s.getUserHandler)
+				r.Put("/{username}", s.putUserHandler)
+				r.Delete("/{username}", s.deleteUserHandler)
+			})
+		})
 	})
 
 	return r

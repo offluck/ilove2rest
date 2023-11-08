@@ -20,7 +20,8 @@ recreate-database:
 	docker-compose -f dev.docker-compose.yaml up --build -d
 
 dev: recreate-database
-	sleep 10
+	echo "We need to wait 'till database is locked and loaded. Let me take a little nap, Z... Z... Z..."
+	sleep 60
 	make run
 
 prod:
