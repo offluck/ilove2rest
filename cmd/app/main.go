@@ -73,6 +73,10 @@ func migrateDB(database *sql.DB) error {
 
 	err = m.Up()
 	if err != nil {
+		if err == migrate.ErrNoChange {
+			log.Printf("Migration did not change DB")
+			return nil
+		}
 		return fmt.Errorf("Failed to migrate: %+v\n", err)
 	}
 

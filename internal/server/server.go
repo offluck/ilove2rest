@@ -30,9 +30,10 @@ func (s *Server) setUpRouter() *chi.Mux {
 	r.Use(middleware.Logger)
 
 	r.Get("/health", s.healthHandler)
-	r.Get("/user", s.getUsersHandler)
 
 	r.Route("/user", func(r chi.Router) {
+		r.Get("/", s.getUsersHandler)
+		r.Post("/", s.postUserHandler)
 		r.Get("/{username}", s.getUserHandler)
 		r.Put("/{username}", s.putUserHandler)
 		r.Delete("/{username}", s.deleteUserHandler)

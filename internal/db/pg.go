@@ -61,7 +61,7 @@ func (client *PGClient) GetUsers(ctx context.Context) ([]user.UserDB, error) {
 }
 
 func (client *PGClient) GetUser(ctx context.Context, username string) (user.UserDB, error) {
-	query := client.QueryRowContext(ctx, "SELECT username, password, first_name, last_name, email, phone FROM users WHERE username LIKE ?", username)
+	query := client.QueryRowContext(ctx, "SELECT username, password, first_name, last_name, email, phone FROM users WHERE username = $1", username)
 	if query.Err() != nil {
 		return user.UserDB{}, fmt.Errorf("Failed to create user query: %+v", query.Err())
 	}
@@ -76,6 +76,9 @@ func (client *PGClient) GetUser(ctx context.Context, username string) (user.User
 		&userDB.Phone,
 	)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return user.UserDB{}, err
+		}
 		return user.UserDB{}, fmt.Errorf("Failed to query a user: %+v", err)
 	}
 
@@ -110,8 +113,8 @@ func (client *PGClient) UpdateUser(ctx context.Context, username string, newUser
 					first_name = $3,
 					last_name = $4,
 					email = $5,
-					phone = $6,
-				WHERE username LIKE $7`
+					phone = $6
+				WHERE username = $7`
 
 	_, err := client.ExecContext(
 		ctx,
@@ -122,23 +125,36 @@ func (client *PGClient) UpdateUser(ctx context.Context, username string, newUser
 		newUserDB.LastName,
 		newUserDB.Email,
 		newUserDB.Phone,
+		username,
 	)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return user.UserDB{}, err
+		}
 		return user.UserDB{}, fmt.Errorf("Failed to update user: %+v", err)
 	}
 	return newUserDB, nil
 }
 
 func (client *PGClient) DeleteUser(ctx context.Context, username string) error {
-	query := `DELETE FROM users WHERE username LIKE ?)`
+	query := `DELETE FROM users WHERE username LIKE $1`
 
-	_, err := client.ExecContext(
+	res, err := client.ExecContext(
 		ctx,
 		query,
 		username,
 	)
 	if err != nil {
 		return fmt.Errorf("Failed to delete user: %+v", err)
+	}
+
+	count, err := res.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("Failed to check affected rows: %+v", err)
+	}
+
+	if count == 0 {
+		return sql.ErrNoRows
 	}
 
 	return nil
